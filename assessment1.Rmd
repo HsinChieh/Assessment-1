@@ -1,0 +1,55 @@
+---
+title: "Assessment 1.1"
+author: "Hsin-Chieh Tang s4647300"
+date: "14/08/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# RMarkdown **_editing_**
+
+**R Markdown** is a file format that is used in Rstudio to produce dynamic documents, which contains Markdown and R code. It creates an easy way for writing by using plain text format, and simply reading through common output format such as *html*.
+
+[link] (https://rmarkdown.rstudio.com/lesson-8.html)
+
+```{r}
+library(tidyverse)
+
+view <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018/2018-09-04/fastfood_calories.csv')
+
+### rename to fastfood
+
+fastfood <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018/2018-09-04/fastfood_calories.csv')
+
+### Display the first 10 rows of the dataset.
+
+fastfood%>%head(1-10)
+
+
+library(knitr)
+
+### table not yet fix
+
+knitr::kable(head(fastfood[, 1:5]), "rst")
+
+### Display the observations that has more than 1000 calories.
+
+filter(fastfood, calories>1000)
+
+### Save observations with more than 40 in total_fat and more than 80 in total_carb in a new variable called `dont_eat_this`
+
+fastfood %>% filter(total_fat> 40 & total_carb> 80)
+
+dont_eat_this <-fastfood %>% filter(total_fat> 40 & total_carb> 80)
+
+###Display observations from restaurant Mcdonalds
+
+fastfood %>% filter(restaurant=="Mcdonalds")
+
+```
+
+
+
