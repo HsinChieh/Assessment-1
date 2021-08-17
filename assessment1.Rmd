@@ -9,47 +9,134 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
+
 # RMarkdown **_editing_**
 
 **R Markdown** is a file format that is used in Rstudio to produce dynamic documents, which contains Markdown and R code. It creates an easy way for writing by using plain text format, and simply reading through common output format such as *html*.
 
-[link] (https://rmarkdown.rstudio.com/lesson-8.html)
+[link](https://rmarkdown.rstudio.com/lesson-8.html)
+
+
+### **Part 1**
+
+Create a variable with the dataset.
+
+```{r}
+# install.packages("tidyverse")
+
+library(tidyverse)
+
+fastfood <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018/2018-09-04/fastfood_calories.csv')
+
+```
+Display the first 10 rows of the dataset.
 
 ```{r}
 library(tidyverse)
 
-view <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018/2018-09-04/fastfood_calories.csv')
+fastfood%>%head(10)
+```
+Display the first 10 rows of the dataset and the first 5 variables using kabble() function.
 
-### rename to fastfood
-
-fastfood <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018/2018-09-04/fastfood_calories.csv')
-
-### Display the first 10 rows of the dataset.
-
-fastfood%>%head(1-10)
-
+```{r}
+# install.packages("knitr")
 
 library(knitr)
 
-### table not yet fix
+knitr::kable(head(fastfood[, 1:5]), "pipe")
+```
+Display the observations that has more than 1000 calories.
 
-knitr::kable(head(fastfood[, 1:5]), "rst")
-
-### Display the observations that has more than 1000 calories.
-
+```{r}
 filter(fastfood, calories>1000)
+```
+Save observations with more than 40 in total_fat and more than 80 in total_carb in a new variable called `dont_eat_this`.
 
-### Save observations with more than 40 in total_fat and more than 80 in total_carb in a new variable called `dont_eat_this`
-
+```{r}
 fastfood %>% filter(total_fat> 40 & total_carb> 80)
 
 dont_eat_this <-fastfood %>% filter(total_fat> 40 & total_carb> 80)
-
-###Display observations from restaurant Mcdonalds
-
+```
+Display observations from restaurant Mcdonalds.
+```{r}
 fastfood %>% filter(restaurant=="Mcdonalds")
+```
+
+### **Part 2**
+
+Display the types of variables in the dataset.
+
+```{r}
+library(skimr)
+
+fastfood%>%skim()
+```
+
+Show the count of observations for each restaurant.
+
+```{r}
+fastfood%>%count(restaurant)
+```
+Summarise and display the average number of calories for each restaurant.
+```{r}
+fastfood%>%
+  group_by(restaurant)%>%
+  summarise(calories=mean(calories))
+```
+Add a variable to the dataset, which calculates the average calories per type of restaurant and call it `average_calories`.
+```{r}
+# install.packages("dplyr")
+
+library(dplyr)
+
+fastfood %>%
+  group_by(restaurant) %>% 
+  summarise(average_calories = mean(calories)) %>% 
+  mutate(average_calories)
+```
+### Display the data vis of total fat per each type of restaurant. Write a narration (2-3 sentences) why you believe this type of data viz presents such information best.
+```{r}
+
+# install.packages("scales")
+# install.packages("lubridate")
+
+library(tidyverse)
+library(scales)
+library(lubridate)
+
+
+
+```
+### Add a variable to the dataset, which calculates the maximum total fat per type of restaurant and call it `max_total_fat`.
+```{r}
+
+max_total_fat <- 
+  fastfood %>% 
+  group_by(restaurant) %>%
+  summarise(total_fat)
+  
+
+```
+### Use observations for Mcdonalds to plot sugar variable against protein with `geom_point()`.
+```{r}
+
+
 
 ```
 
+### **Part 3**
 
+Identify variable(s) which should be factors and transform their type into a factor variable.
+```{r}
+
+
+```
+
+Create two new variables
+```{r}
+
+
+
+```
 
