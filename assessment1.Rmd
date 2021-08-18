@@ -35,7 +35,7 @@ Display the first 10 rows of the dataset.
 ```{r}
 library(tidyverse)
 
-fastfood%>%head(10)
+fastfood %>% head(10)
 ```
 Display the first 10 rows of the dataset and the first 5 variables using kabble() function.
 
@@ -59,6 +59,7 @@ fastfood %>% filter(total_fat> 40 & total_carb> 80)
 dont_eat_this <-fastfood %>% filter(total_fat> 40 & total_carb> 80)
 ```
 Display observations from restaurant Mcdonalds.
+
 ```{r}
 fastfood %>% filter(restaurant=="Mcdonalds")
 ```
@@ -79,6 +80,7 @@ Show the count of observations for each restaurant.
 fastfood%>%count(restaurant)
 ```
 Summarise and display the average number of calories for each restaurant.
+
 ```{r}
 fastfood%>%
   group_by(restaurant)%>%
@@ -90,38 +92,50 @@ Add a variable to the dataset, which calculates the average calories per type of
 
 library(dplyr)
 
-fastfood %>%
+average_calories <-
+  fastfood %>%
   group_by(restaurant) %>% 
   summarise(average_calories = mean(calories)) %>% 
   mutate(average_calories)
 ```
-### Display the data vis of total fat per each type of restaurant. Write a narration (2-3 sentences) why you believe this type of data viz presents such information best.
+
+Display the data vis of total fat per each type of restaurant. Write a narration (2-3 sentences) why you believe this type of data viz presents such information best.
+
+
+### In this question, there are two types of variables(one is restaurant and another is total_fat). In ggplot2 cheat sheet, we need to identify the variables belong to discrete, continuous, both discrete or both continuous. Because restaurant belongs to *discrete* and total_fat belongs to *continuous*, I choose the bar chart for easy understanding the difference between each restaurant.
+
+
 ```{r}
 
-# install.packages("scales")
-# install.packages("lubridate")
-
 library(tidyverse)
-library(scales)
-library(lubridate)
 
+ggplot(data = fastfood, aes(x = restaurant, y = total_fat)) + geom_col()
 
+# variable_1 = restaurant (this is discrete) and variable_2 = total_fat (this is continuous)
 
 ```
-### Add a variable to the dataset, which calculates the maximum total fat per type of restaurant and call it `max_total_fat`.
+Add a variable to the dataset, which calculates the maximum total fat per type of restaurant and call it `max_total_fat`.
+
 ```{r}
 
 max_total_fat <- 
   fastfood %>% 
   group_by(restaurant) %>%
-  summarise(total_fat)
+  select(restaurant, total_fat) %>% 
+  summarise(max_total_fat = max(total_fat)) %>% 
+  mutate(max_total_fat)
   
-
 ```
-### Use observations for Mcdonalds to plot sugar variable against protein with `geom_point()`.
+
+Use observations for Mcdonalds to plot sugar variable against protein with `geom_point()`.
+
 ```{r}
 
+mcdonalds_data <- 
+  select(fastfood, restaurant, sugar, protein)
 
+ggplot(data = mcdonalds_data) +
+  geom_point(mapping = aes(x = sugar, y = protein))
 
 ```
 
