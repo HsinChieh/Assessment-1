@@ -118,9 +118,7 @@ head(average_calories %>% select(restaurant,calories,average_calories))
 - Display the data vis of total fat per each type of restaurant. Write a narration (2-3 sentences) why you believe this type of data viz presents such information best.
 
 
-##### In this question, there are two types of variables(one is restaurant and another is total_fat). 
-##### In ggplot2 cheat sheet, we need to identify the variables belong to discrete, continuous, both discrete or both continuous. 
-##### Because restaurant belongs to `discrete` and total_fat belongs to `continuous`, I choose the bar chart for easy understanding the difference between each restaurant.
+##### In this question, there are two types of variables(one is restaurant and another is total_fat). In ggplot2 cheat sheet, we need to identify the variables belong to discrete, continuous, both discrete or both continuous. Because restaurant belongs to `discrete` and total_fat belongs to `continuous`, I choose the bar chart for easy understanding the difference between each restaurant.
 
 
 ```{r}
@@ -172,25 +170,10 @@ fastfood %>%
 
 library(forcats)
 
-is.factor(fastfood$restaurant)
-as.factor(fastfood$item)
-as.factor(fastfood$calories)
-is.factor(fastfood$cal_fat)
-is.factor(fastfood$total_fat)
-is.factor(fastfood$sat_fat)
-is.factor(fastfood$trans_fat)
-is.factor(fastfood$cholesterol)
-is.factor(fastfood$sodium)
-is.factor(fastfood$total_carb)
-is.factor(fastfood$fiber)
-is.factor(fastfood$sugar)
-is.factor(fastfood$protein)
-is.factor(fastfood$vit_a)
-is.factor(fastfood$vit_c)
-is.factor(fastfood$calcium)
-is.factor(fastfood$salad)
+#is.factor(fastfood$restaurant)
 
-as.factor(fastfood$restaurant)
+
+#as.factor(fastfood$restaurant)
 
 ```
 
@@ -198,13 +181,13 @@ as.factor(fastfood$restaurant)
 
 ```{r}
 
-calories_type <- fastfood %>%
+calories_type <- fastfood %>% 
   group_by(restaurant) %>% 
   mutate(calories_type = cut_number(calories, n = 3, labels = c("low","med","high"))) %>% 
   ungroup() %>% 
   arrange(calories_type)
 
-#head(calories_type %>% select(restaurant,item,calories,calories_type))
+head(calories_type %>% select(restaurant,item,calories,calories_type))
 
 ```
 
