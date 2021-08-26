@@ -7,6 +7,13 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(knitr)
+library(skimr)
+library(ggplot2)
+library(forcats)
+library(lubridate)
 ```
 
 
@@ -105,13 +112,12 @@ fastfood%>%
 
 ```{r}
 
-average_calories <-
-  fastfood %>% 
-  group_by(restaurant)%>%
+fastfood <- fastfood %>% 
+  group_by(restaurant) %>%
   mutate(average_calories = mean(calories)) %>% 
   ungroup()
 
-head(average_calories %>% select(restaurant,calories,average_calories))
+head(fastfood %>% select(restaurant,calories,average_calories)) %>% kable()
 
 ```
 
@@ -122,6 +128,8 @@ head(average_calories %>% select(restaurant,calories,average_calories))
 
 
 ```{r}
+
+library(ggplot2)
 
 # variable_x = restaurant (this is discrete) and variable_y = total_fat (this is continuous)
 
@@ -138,12 +146,12 @@ fastfood %>%
 
 ```{r}
 
-max_total_fat <- fastfood %>% 
+fastfood <- fastfood %>% 
   group_by(restaurant) %>%
   mutate(max_total_fat = max(total_fat)) %>% 
   ungroup()
 
-head(max_total_fat %>% select(restaurant,item,total_fat,max_total_fat))
+head(fastfood %>% select(restaurant,item,total_fat,max_total_fat)) %>% kable()
   
 ```
 
@@ -169,25 +177,33 @@ fastfood %>%
 #install.packages("forcats")
 
 library(forcats)
+library(lubridate)
 
 #is.factor(fastfood$restaurant)
 
 
 #as.factor(fastfood$restaurant)
 
+#str(fastfood)
+
+#sapply(fastfood, is.factor)
+
+fastfood$restaurant <- as_factor(fastfood$restaurant)
+class(fastfood$restaurant)
+levels(fastfood$restaurant)
 ```
 
 - Add a new variable to the dataset `calories_type` using `cut_number()` function.Use `calories` variable for `cut_number()` function to split it into 3 categories `n=3`, add labels `labels=c("low", "med", "high")` and make the dataset ordered.
 
 ```{r}
 
-calories_type <- fastfood %>% 
+fastfood <- fastfood %>% 
   group_by(restaurant) %>% 
   mutate(calories_type = cut_number(calories, n = 3, labels = c("low","med","high"))) %>% 
   ungroup() %>% 
   arrange(calories_type)
 
-head(calories_type %>% select(restaurant,item,calories,calories_type))
+head(fastfood %>% select(restaurant,item,calories,calories_type)) %>% kable()
 
 ```
 
@@ -195,16 +211,15 @@ head(calories_type %>% select(restaurant,item,calories,calories_type))
 
 ```{r}
 
-calories_type %>% 
-  group_by(restaurant) %>% 
-  ungroup() %>% 
-  ggplot(aes(restaurant, calories_type)) +
-  geom_boxplot(colour="red") +
+fastfood %>% 
+  ggplot(aes(item,calories,fill=calories_type)) +
+  geom_bar(stat = "identity", position = "fill") +
+  scale_fill_manual(values = c("#3D5B59","#B5E5CF","#FCB5AC","#B99095"))+
   facet_wrap(vars(restaurant)) +
   coord_flip() +
   theme_bw() +
-  labs(x="Restaurant", y="Calories Type", title ="Data Visualisation 3", caption = "Image 3:Plot Graph")
-  
+  labs(x="Restaurant", y="Calories Type", title ="Data Visualisation 3", caption = "Image 3:Bar Graph")
+
 
 ```
 
@@ -212,12 +227,14 @@ calories_type %>%
 
 ```{r}
 
-trans_fat_percent <- fastfood %>% 
+fastfood <- fastfood %>% 
   group_by(restaurant) %>% 
   mutate(trans_fat_percent = trans_fat / total_fat * 100) %>% 
   ungroup()
 
-head(trans_fat_percent %>% select(restaurant,item,trans_fat,total_fat,trans_fat_percent))
+head(fastfood %>% 
+       select(restaurant,item,trans_fat,total_fat,trans_fat_percent)) %>% 
+  kable()
 
 #round(trans_fat_percent$trans_fat_percent, 2)
 
@@ -228,11 +245,19 @@ head(trans_fat_percent %>% select(restaurant,item,trans_fat,total_fat,trans_fat_
 ```{r}
 
 ggplot(fastfood, aes(restaurant,trans_fat)) +
-  geom_point(colour = "yellow") +
+  geom_point(colour = "red") +
   facet_wrap(vars(restaurant)) +
   coord_flip() +
   labs(x="Restaurant", y="Trans Fat", title = "Data Visualisation 4", caption = "Image 4:Point Graph") +
-  theme_dark()
+  theme_grey()
+
+fastfood %>% 
+  ggplot(aes(restaurant,trans_fat)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_wrap(vars(restaurant)) +
+  coord_flip() +
+  theme_grey() +
+  labs(x="Restaurant", y="Trans Fat(%)", title = "Data Visualisation 4", caption = "Image 4:Bar Graph")
 
 
 ```
@@ -260,8 +285,8 @@ fastfood %>%
   summarise(average_fat = mean(total_fat)) %>% 
   ungroup() %>% 
   mutate(average_fat = fct_reorder(restaurant,average_fat)) %>% 
-  ggplot(aes(restaurant,average_fat)) +
-  geom_col()
+  ggplot(aes(restaurant, average_fat)) +
+  geom_boxplot()
 
 
 ```
