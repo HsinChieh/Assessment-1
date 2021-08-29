@@ -175,21 +175,19 @@ fastfood %>%
 
 #### 18. Identify variable(s) which should be factors and transform their type into a factor variable.
 
-Factor means that variables can be put into category with limited values.
-By using `class` to check if they are factors or not; then using `as_factor()` to change into factors.
+Factor means that categorical (character) variables can be put into category with limited values.
+By using `class` to check if they are factors or not; and the result shows that only *restaurant*, *item*, and *salad* belong to character! Then using `mutate_if(is.character, factor)` to change them into factors efficiently.
 
 ```{r}
-#Check if they are factors or not
+#Check the variables if they are factors or not.
 sapply(fastfood, class)
 
-#To make them factors
-fastfood$restaurant <- as_factor(fastfood$restaurant)
-class(fastfood$restaurant)
-levels(fastfood$restaurant)
+#Change any character variable in a dataset to factor.
+fastfood_factors <- fastfood %>% 
+  mutate_if(is.character, factor)
 
-fastfood$salad <- as_factor(fastfood$salad)
-class(fastfood$salad)
-levels(fastfood$salad)
+#To see the differences
+skim(fastfood_factors)
 
 ```
 
@@ -197,13 +195,13 @@ levels(fastfood$salad)
 
 ```{r}
 
-fastfood <- fastfood %>% 
+calories_type <- fastfood %>% 
   group_by(restaurant) %>% 
   mutate(calories_type = cut_number(calories, n = 3, labels = c("low","med","high"))) %>% 
   ungroup() %>% 
   arrange(calories_type)
 
-head(fastfood %>% select(restaurant,item,calories,calories_type)) %>% kable()
+head(calories_type %>% select(restaurant,item,calories,calories_type)) %>% kable()
 
 ```
 
@@ -211,22 +209,15 @@ head(fastfood %>% select(restaurant,item,calories,calories_type)) %>% kable()
 
 ```{r}
 
-fastfood %>% 
-  ggplot(aes(item,calories,fill=calories_type)) +
-  geom_bar(stat = "identity", position = "fill") +
-  scale_fill_manual(values = c("#3D5B59","#B5E5CF","#FCB5AC","#B99095"))+
-  facet_wrap(vars(restaurant)) +
+calories_type %>%
+  count(restaurant, calories_type) %>% 
+  mutate(restaurant=fct_reorder(restaurant, desc(n))) %>%
+  ggplot(aes(x= calories_type, y=n, fill=restaurant)) +
+  geom_col() +
   coord_flip() +
+  facet_wrap(~restaurant) +
   theme_bw() +
   labs(x="Calories Type", y="Count", title ="Count of Calories Type by Restaurant", caption = "Image 3:Bar Graph")
-
-fastfood %>% 
-  count(restaurant, calories_type) %>% 
-  mutate(calories_type=fct_reorder(calories_type, desc(n)) %>% 
-  ggplot(aes(x= calories_type, y=n)) +
-  geom_bar() +
-  coord_flip() +
-  facet_wrap(vars(restaurant))
 
 ```
 
@@ -251,20 +242,13 @@ head(fastfood %>%
 
 ```{r}
 
-ggplot(fastfood, aes(restaurant,trans_fat)) +
-  geom_point(colour = "red") +
-  facet_wrap(vars(restaurant)) +
-  coord_flip() +
-  labs(x="Restaurant", y="Trans Fat", title = "Data Visualisation 4", caption = "Image 4:Point Graph") +
-  theme_grey()
-
 fastfood %>% 
-  ggplot(aes(restaurant,trans_fat)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  facet_wrap(vars(restaurant)) +
+  ggplot(aes(trans_fat, total_fat, colour = restaurant)) +
+  geom_point() +
+  facet_wrap(~restaurant) +
+  theme_dark() +
   coord_flip() +
-  theme_grey() +
-  labs(x="Restaurant", y="Trans Fat(%)", title = "Data Visualisation 4", caption = "Image 4:Bar Graph")
+  labs(x="Trans Fat(%)", y="Total Fat", title = "Trans Fat by Restaurant", caption = "Image 4:Point Graph")
 
 ```
 
@@ -284,17 +268,13 @@ fastfood %>%
 
 ```{r}
 
-#fastfood$total_fat <- as_factor(fastfood$total_fat)
-#class(fastfood$total_fat)
-#levels(fastfood$total_fat)
-
 fastfood %>% 
   group_by(restaurant) %>% 
-  mutate(total_fat = fct_reorder(restaurant, total_fat)) %>%
+  summarise(average_fat = mean(total_fat)) %>% 
   ungroup() %>% 
-  ggplot(aes(restaurant, total_fat)) +
+  mutate(restaurant = fct_reorder(restaurant, average_fat)) %>%
+  ggplot(aes(restaurant, average_fat, fill=restaurant)) +
   geom_col() +
-  geom_smooth(se=FALSE) +
   coord_flip() +
   theme_gray() +
   labs(x="Names of Restaurant", y="Total Fat", title="Total Fat by Restaurant", caption = "Image 5:Bar Graph")
