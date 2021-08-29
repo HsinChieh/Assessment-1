@@ -3250,7 +3250,7 @@ head(fastfood %&gt;% select(restaurant,calories,average_calories)) %&gt;% kable(
 <div id="display-the-data-vis-of-total-fat-per-each-type-of-restaurant.-write-a-narration-2-3-sentences-why-you-believe-this-type-of-data-viz-presents-such-information-best." class="section level4">
 <h4>15. Display the data vis of total fat per each type of restaurant. Write a narration (2-3 sentences) why you believe this type of data viz presents such information best.</h4>
 <div id="in-this-question-there-are-two-types-of-variablesone-is-restaurant-and-another-is-total_fat.-in-ggplot2-cheat-sheet-we-need-to-identify-the-variables-belong-to-discrete-continuous-both-discrete-or-both-continuous.-because-restaurant-belongs-to-discrete-and-total_fat-belongs-to-continuous-i-choose-the-bar-chart-for-easy-understanding-the-difference-between-each-restaurant." class="section level5">
-<h5>In this question, there are two types of variables(one is restaurant and another is total_fat). In ggplot2 cheat sheet, we need to identify the variables belong to discrete, continuous, both discrete or both continuous. Because restaurant belongs to <code>discrete</code> and total_fat belongs to <code>continuous</code>, I choose the bar chart for easy understanding the difference between each restaurant.</h5>
+<h5><strong>In this question, there are two types of variables(one is restaurant and another is total_fat). In ggplot2 cheat sheet, we need to identify the variables belong to discrete, continuous, both discrete or both continuous. Because restaurant belongs to <code>discrete</code> and total_fat belongs to <code>continuous</code>, I choose the bar chart for easy understanding the difference between each restaurant.</strong></h5>
 <pre class="r"><code># variable_x = restaurant (this is discrete) and variable_y = total_fat (this is continuous)
 
 fastfood %&gt;% 
@@ -3334,7 +3334,11 @@ head(fastfood %&gt;% select(restaurant,item,total_fat,max_total_fat)) %&gt;% kab
 <h3><strong>Part 3</strong></h3>
 <div id="identify-variables-which-should-be-factors-and-transform-their-type-into-a-factor-variable." class="section level4">
 <h4>18. Identify variable(s) which should be factors and transform their type into a factor variable.</h4>
-<p>Factor means that categorical (character) variables can be put into category with limited values. By using <code>class</code> to check if they are factors or not; and the result shows that only <em>restaurant</em>, <em>item</em>, and <em>salad</em> belong to character! Then using <code>mutate_if(is.character, factor)</code> to change them into factors efficiently.</p>
+<div id="factor-means-that-categorical-character-variables-can-be-put-into-category-with-limited-values." class="section level5">
+<h5><strong>Factor means that categorical (character) variables can be put into category with limited values.</strong></h5>
+</div>
+<div id="by-using-class-to-check-if-they-are-factors-or-not-and-the-result-shows-that-only-restaurant-item-and-salad-belong-to-character-then-using-mutate_ifis.character-factor-to-change-them-into-factors-efficiently." class="section level5">
+<h5><strong>By using <code>class</code> to check if they are factors or not; and the result shows that only <em>restaurant</em>, <em>item</em>, and <em>salad</em> belong to character! Then using <code>mutate_if(is.character, factor)</code> to change them into factors efficiently.</strong></h5>
 <pre class="r"><code>#Check the variables if they are factors or not.
 sapply(fastfood, class)</code></pre>
 <pre><code>##             ...1       restaurant             item         calories 
@@ -3674,6 +3678,7 @@ skim(fastfood_factors)</code></pre>
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 <div id="add-a-new-variable-to-the-dataset-calories_type-using-cut_number-function.use-calories-variable-for-cut_number-function-to-split-it-into-3-categories-n3-add-labels-labelsclow-med-high-and-make-the-dataset-ordered." class="section level4">
 <h4>19. Add a new variable to the dataset <code>calories_type</code> using <code>cut_number()</code> function.Use <code>calories</code> variable for <code>cut_number()</code> function to split it into 3 categories <code>n=3</code>, add labels <code>labels=c(&quot;low&quot;, &quot;med&quot;, &quot;high&quot;)</code> and make the dataset ordered.</h4>
