@@ -22,13 +22,13 @@ library(lubridate)
 
 # RMarkdown **_editing_**
 
-#### **R Markdown** is a file format that is used in Rstudio to produce dynamic documents, which contains Markdown and R code. It creates an easy way for writing by using plain text format, and simply reading through common output format such as `html`.
+### **R Markdown** is a file format that is used in Rstudio to produce dynamic documents, which contains Markdown and R code. It creates an easy way for writing by using plain text format, and simply reading through common output format such as `html`.
 
-#### *For more details please click [here](https://rmarkdown.rstudio.com/lesson-8.html)!*
+### *For more details please click [here](https://rmarkdown.rstudio.com/lesson-8.html)!*
 
-### **Part 1**
+## **Part 1**
 
-#### 6. Insert an R chunk and create a variable with the dataset.The name of the variable should be `fastfood`.
+### 6. Insert an R chunk and create a variable with the dataset.The name of the variable should be `fastfood`.
 
 ```{r}
 
@@ -36,7 +36,7 @@ fastfood <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytues
 
 ```
 
-#### 7. Display the first 10 rows of the dataset.
+### 7. Display the first 10 rows of the dataset.
 
 ```{r}
 
@@ -45,7 +45,7 @@ head(fastfood, 10) %>%
 
 ```
 
-#### 8. Display the first 10 rows of the dataset and the first 5 variables using kable() function.
+### 8. Display the first 10 rows of the dataset and the first 5 variables using kable() function.
 
 ```{r}
 
@@ -53,7 +53,7 @@ kable(fastfood[1:10, 1:5])
 
 ```
 
-#### 9. Display the observations that has more than 1000 calories.
+### 9. Display the observations that has more than 1000 calories.
 
 ```{r}
 
@@ -61,7 +61,7 @@ filter(fastfood, calories>1000) %>%
   kable()
 
 ```
-#### 10. Save observations with more than 40 in total_fat and more than 80 in total_carb in a new variable called `dont_eat_this`.
+### 10. Save observations with more than 40 in total_fat and more than 80 in total_carb in a new variable called `dont_eat_this`.
 
 ```{r}
 
@@ -72,7 +72,7 @@ fastfood %>% filter(total_fat> 40 & total_carb> 80) %>% kable()
 
 ```
 
-#### 11. Using the initial dataset variable, display observations from restaurant Mcdonalds.
+### 11. Using the initial dataset variable, display observations from restaurant Mcdonalds.
 
 ```{r}
 
@@ -80,9 +80,9 @@ fastfood %>% filter(restaurant=="Mcdonalds") %>% kable()
 
 ```
 
-### **Part 2**
+## **Part 2**
 
-#### 11. Display the types of variables in the dataset using `skimr` package.
+### 11. Display the types of variables in the dataset using `skimr` package.
 
 ```{r}
 
@@ -92,7 +92,7 @@ skim(fastfood)
 
 ```
 
-#### 12. Show the count of observations for each restaurant.
+### 12. Show the count of observations for each restaurant.
 
 ```{r}
 
@@ -102,7 +102,7 @@ fastfood %>%
 
 ```
 
-#### 13. Using grouppings `group_by()`, summarise and display the average number of calories for each restaurant.
+### 13. Using grouppings `group_by()`, summarise and display the average number of calories for each restaurant.
 
 ```{r}
 
@@ -113,7 +113,7 @@ fastfood%>%
   kable()
 
 ```
-#### 14. Add a variable to the dataset, which calculates the average calories per type of restaurant and call it `average_calories`.
+### 14. Add a variable to the dataset, which calculates the average calories per type of restaurant and call it `average_calories`.
 
 ```{r}
 
@@ -126,10 +126,10 @@ head(fastfood %>% select(restaurant,calories,average_calories)) %>% kable()
 
 ```
 
-#### 15. Display the data vis of total fat per each type of restaurant. Write a narration (2-3 sentences) why you believe this type of data viz presents such information best.
+### 15. Display the data vis of total fat per each type of restaurant. Write a narration (2-3 sentences) why you believe this type of data viz presents such information best.
 
 
-##### **In this question, there are two types of variables(one is restaurant and another is total_fat). In ggplot2 cheat sheet, we need to identify the variables belong to discrete, continuous, both discrete or both continuous. Because restaurant belongs to `discrete` and total_fat belongs to `continuous`, I choose the bar chart for easy understanding the difference between each restaurant.**
+#### **In this question, there are two types of variables(one is restaurant and another is total_fat). In ggplot2 cheat sheet, we need to identify the variables belong to discrete, continuous, both discrete or both continuous. Because restaurant belongs to `discrete` and total_fat belongs to `continuous`, I choose the bar chart for easy understanding the difference between each restaurant.**
 
 
 ```{r}
@@ -145,7 +145,7 @@ fastfood %>%
 
 ```
 
-#### 16. Add a variable to the dataset, which calculates the maximum total fat per type of restaurant and call it `max_total_fat`.
+### 16. Add a variable to the dataset, which calculates the maximum total fat per type of restaurant and call it `max_total_fat`.
 
 ```{r}
 
@@ -158,7 +158,7 @@ head(fastfood %>% select(restaurant,item,total_fat,max_total_fat)) %>% kable()
   
 ```
 
-#### 17. Use observations for Mcdonalds to plot sugar variable against protein with `geom_point()`.
+### 17. Use observations for Mcdonalds to plot sugar variable against protein with `geom_point()`.
 
 ```{r}
 
@@ -171,13 +171,13 @@ fastfood %>%
 
 ```
 
-### **Part 3**
+## **Part 3**
 
-#### 18. Identify variable(s) which should be factors and transform their type into a factor variable.
+### 18. Identify variable(s) which should be factors and transform their type into a factor variable.
 
 
-##### **Factor means that categorical (character) variables can be put into category with limited values.**
-##### **By using `class` to check if they are factors or not; and the result shows that only *restaurant*, *item*, and *salad* belong to character! Then using `mutate_if(is.character, factor)` to change them into factors efficiently.**
+#### **Factor means that categorical (character) variables can be put into category with limited values.**
+#### **By using `class` to check if they are factors or not; and the result shows that only *restaurant*, *item*, and *salad* belong to character! Then using `mutate_if(is.character, factor)` to change them into factors efficiently.**
 
 ```{r}
 #Check the variables if they are factors or not.
@@ -192,7 +192,7 @@ skim(fastfood_factors)
 
 ```
 
-#### 19. Add a new variable to the dataset `calories_type` using `cut_number()` function.Use `calories` variable for `cut_number()` function to split it into 3 categories `n=3`, add labels `labels=c("low", "med", "high")` and make the dataset ordered.
+### 19. Add a new variable to the dataset `calories_type` using `cut_number()` function.Use `calories` variable for `cut_number()` function to split it into 3 categories `n=3`, add labels `labels=c("low", "med", "high")` and make the dataset ordered.
 
 ```{r}
 
@@ -206,7 +206,7 @@ head(calories_type %>% select(restaurant,item,calories,calories_type)) %>% kable
 
 ```
 
-#### 20. Create a data viz that shows the distribution of `calories_type` in food items for each type of restaurant.Think carefully about the choice of data viz. Use facets, coordinates and theme layers to make your data viz visually appealing and meaningful. Use factors related data viz functions.
+### 20. Create a data viz that shows the distribution of `calories_type` in food items for each type of restaurant.Think carefully about the choice of data viz. Use facets, coordinates and theme layers to make your data viz visually appealing and meaningful. Use factors related data viz functions.
 
 ```{r}
 
@@ -222,7 +222,7 @@ calories_type %>%
 
 ```
 
-#### 21. Show the percentage of `trans_fat` in `total_fat` and add the variable to the dataset and call it `trans_fat_percent`.
+### 21. Show the percentage of `trans_fat` in `total_fat` and add the variable to the dataset and call it `trans_fat_percent`.
 
 ```{r}
 
@@ -239,7 +239,7 @@ head(fastfood %>%
 
 ```
 
-#### 22. Create a data viz that shows the distribution of `trans_fat` in food items for each type of restaurant.Think carefully about the choice of data viz. Use facets, coordinates and theme layers to make your data viz visually appealing and meaningful.
+### 22. Create a data viz that shows the distribution of `trans_fat` in food items for each type of restaurant.Think carefully about the choice of data viz. Use facets, coordinates and theme layers to make your data viz visually appealing and meaningful.
 
 ```{r}
 
@@ -253,7 +253,7 @@ fastfood %>%
 
 ```
 
-#### 23. Calculate and show the average (mean) `total_fat` for each type of restaurant. No need to save it as a variable.
+### 23. Calculate and show the average (mean) `total_fat` for each type of restaurant. No need to save it as a variable.
 
 ```{r}
 
@@ -265,7 +265,7 @@ fastfood %>%
 
 ```
 
-#### 24. Create a dataviz that allow to compare different restaurants on this variable (`total_fat`). You can present it on one dataviz (= no facets).
+### 24. Create a dataviz that allow to compare different restaurants on this variable (`total_fat`). You can present it on one dataviz (= no facets).
 
 ```{r}
 
