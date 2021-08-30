@@ -15,7 +15,6 @@ library(knitr)
 library(skimr)
 library(ggplot2)
 library(forcats)
-library(lubridate)
 ```
 
 
@@ -208,6 +207,8 @@ head(calories_type %>% select(restaurant,item,calories,calories_type)) %>% kable
 
 ### 20. Create a data viz that shows the distribution of `calories_type` in food items for each type of restaurant.Think carefully about the choice of data viz. Use facets, coordinates and theme layers to make your data viz visually appealing and meaningful. Use factors related data viz functions.
 
+#### **In this question, we need to count the `calories_type` (3 types) for each restaurant. Bar chart can easily identify their distribution. Also, by using `fct_reorder`, I reorder the total number of calories_type in each restaurant.**
+
 ```{r}
 
 calories_type %>%
@@ -241,6 +242,8 @@ head(fastfood %>%
 
 ### 22. Create a data viz that shows the distribution of `trans_fat` in food items for each type of restaurant.Think carefully about the choice of data viz. Use facets, coordinates and theme layers to make your data viz visually appealing and meaningful.
 
+#### **In this question, I think there are different trans fat (variables) for different item in one restaurant; therefore, I chose point graph (x=trans_fat, y=total_fat), used restaurant for colour and chose facet_wrap, which divides a plot into small plots based on the restaurant (discrete variables)..** 
+
 ```{r}
 
 fastfood %>% 
@@ -267,6 +270,8 @@ fastfood %>%
 
 ### 24. Create a dataviz that allow to compare different restaurants on this variable (`total_fat`). You can present it on one dataviz (= no facets).
 
+#### **In this question, I have created two dataviz: bar chart and boxplot. Since the variables (restaurant and total_fat) are one is discrete and another one is continuous, we can see from dataviz cheat sheet that col, boxplot, dotplot, and violin(using for area) can be used; I chose bar chart similar with Q15 and another one is boxplot. Boxplot is good choice to display five number summary(minimum, first quartile, median, third quartile, and maximum) and I found this graph shows the shape of distribution.**
+
 ```{r}
 
 fastfood %>% 
@@ -278,7 +283,18 @@ fastfood %>%
   geom_col() +
   coord_flip() +
   theme_gray() +
-  labs(x="Names of Restaurant", y="Total Fat", title="Total Fat by Restaurant", caption = "Image 5:Bar Graph")
+  labs(x="Names of Restaurant", y="Total Fat", title="Total Fat by Restaurant 1", caption = "Image 5:Bar Graph")
+
+```
+
+```{r}
+
+fastfood %>% 
+  ggplot(aes(restaurant, total_fat, fill=restaurant)) +
+  geom_boxplot() +
+  coord_flip() +
+  theme_bw() +
+  labs(x="Names of Restaurant", y="Total Fat", title="Total Fat by Restaurant 2", caption = "Image 6:Boxplot Graph")
 
 ```
 
